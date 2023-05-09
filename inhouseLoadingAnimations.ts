@@ -17,7 +17,7 @@ namespace LoadingAnimations {
             this.stopped = false;
         }
 
-        public start(): void {
+        public start(Creator: string): void {
             if (this.running) {
                 this.stop();
             }
@@ -25,7 +25,7 @@ namespace LoadingAnimations {
             this.pls_stop = false;
             this.running = true;
             control.runInParallel(() => {
-                this.start_animation();
+                this.start_animation(Creator);
             });
         }
 
@@ -51,7 +51,7 @@ namespace LoadingAnimations {
             return (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
         }
 
-        protected start_animation(): void {
+        protected start_animation(Creator: string): void {
             throw "Not implemented";
 
             // setup here
@@ -73,7 +73,7 @@ namespace LoadingAnimations {
     }
 
     class Splash extends InhouseAnimation {
-        protected start_animation(): void {
+        protected start_animation(Creator: string): void {
             // setup here
             const bg: Sprite = this.optimize_sprite(sprites.create(img`
                 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -224,7 +224,7 @@ namespace LoadingAnimations {
             text.right = scene.screenWidth() / 2; text.y = scene.screenHeight() / 2;
             text.setFlag(SpriteFlag.Invisible, true);
             text.image.print("A game by", 0, 0, 1);
-            text.image.print("UnsignedArduino", 0, 10, 1);
+            text.image.print(Creator, 0, 10, 1);
 
             const logo: Sprite = this.optimize_sprite(sprites.create(img`
                 fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -345,7 +345,7 @@ namespace LoadingAnimations {
             return this._maximum;
         }
 
-        protected start_animation(): void {
+        protected start_animation(Creator: string): void {
             // setup here
             const bg: Sprite = this.optimize_sprite(sprites.create(img`
                 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -522,16 +522,16 @@ namespace LoadingAnimations {
      * 
      * @param z_index The Z index of the sprites for the animation. 
      */
-    //% block="show splash || at z %z_index"
+    //% block="show splash with Creator %z_index || at z %CreatorName"
     //% group="Splash"
     //% expandableArgumentMode="toggle"
     //% weight=100
-    export function show_splash(z_index: number = 0): void {
+    export function show_splash(CreatorName: string, z_index: number = 0): void {
         if (_splash) {
             hide_splash();
         }
         _splash = new Splash(z_index);
-        _splash.start();
+        _splash.start(CreatorName);
     }
 
     /**
@@ -554,7 +554,7 @@ namespace LoadingAnimations {
      * 
      * @param z_index The Z index of the sprites for the animation. 
      */
-    //% block="show loading || at z %z_index"
+    //% block="show loading %Creator || at z %z_index"
     //% group="Loading"
     //% expandableArgumentMode="toggle"
     //% weight=80
@@ -563,7 +563,7 @@ namespace LoadingAnimations {
             hide_loading();
         }
         _loading = new Loading(z_index);
-        _loading.start();
+        _loading.start(null);
     }
 
     /**

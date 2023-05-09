@@ -3,7 +3,7 @@
 // pause(5000);
 // LoadingAnimations.hide_splash();
 
-LoadingAnimations.show_splash();
+LoadingAnimations.show_splash('Test Productions', null);
 pause(3000);
 LoadingAnimations.hide_splash();
 
